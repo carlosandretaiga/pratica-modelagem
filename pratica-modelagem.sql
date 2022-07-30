@@ -48,8 +48,8 @@ CREATE TABLE "customers" (
 
 --TABLE bankAccount
 CREATE TABLE "bankAccount" (
-	"id" SERIAL PRIMARY KEY,
-  "customerId" INTEGER NOT NULL,
+	"id" SERIAL PRIMARY KEY REFERENCES transactions(bankAccountId),
+  "customerId" INTEGER REFERENCES customers(id),
 	"accountNumber" VARCHAR(50) NOT NULL,
   "agency" VARCHAR(5) NOT NULL,
   "openDate" timestamp NOT NULL DEFAULT NOW(),
@@ -59,7 +59,7 @@ CREATE TABLE "bankAccount" (
 --TABLE transactions
 CREATE TABLE "transactions" (
 	"id" SERIAL PRIMARY KEY,
-  "bankAccountId" INTEGER NOT NULL,
+  "bankAccountId" INTEGER REFERENCES bankAccount(id) creditCards(bankAccountId),
 	"amount" VARCHAR(50) NOT NULL,
   "type" VARCHAR(20) NOT NULL,
   "time" VARCHAR(20) NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE "transactions" (
 --TABLE creditCards
 CREATE TABLE "creditCards" (
 	"id" SERIAL PRIMARY KEY,
-  "bankAccountId" INTEGER NOT NULL,
+  "bankAccountId" INTEGER REFERENCES bankAccount(id),
 	"name" VARCHAR(50) NOT NULL,
   "number" VARCHAR(20) NOT NULL,
   "securityCode" VARCHAR(20) NOT NULL,
